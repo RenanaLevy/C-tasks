@@ -1,120 +1,145 @@
 #include <stdio.h>
 #include "myBank.h"
 
+#define ACCOUNT_NUM 0
+#define CASH_AMOUNT 1 
+#define FIRST_ACCOUNT 901
+#define LAST_ACCOUNT 950
+#define MY_BANK_SIZE 50
+
 double MY_BANK_ACCOUNTS [MY_BANK_SIZE][2];
-//add to myBank.h?
-float two_digits_after_point(double amount){
-return (long)(amount * 100) / 100.0;
-}
 
 void openAccount(double amount){
-if(amount < 0) {
-printf ("/nError! unable to open account with negative amount of cash");
-return;
-}
-if(MY_BANK_ACCOUNTS[MY_BANK_SIZE-1][ACCOUNT_NUM] == 0){
-    for(int i = 0; i < MY_BANK_SIZE; i++){
-        if(MY_BANK_ACCOUNTS[i][ACCOUNT_NUM] != 0){
-        MY_BANK_ACCOUNTS[i][ACCOUNT_NUM] = i + FIRST_ACCOUNT;
-        MY_BANK_ACCOUNTS[i][CASH_AMOUNT] = two_digits_after_point(amount);
-        printf("/nThe number of the new account is %d", i + FIRST_ACCOUNT);
+    /*if(amount < 0) {
+        printf ("Error! unable to open account with negative amount of cash");
+        return;
+    }*/
+    if(amount > 0){
+        int i = 0;
+        for(; i < MY_BANK_SIZE; i++){
+            if(MY_BANK_ACCOUNTS[i][ACCOUNT_NUM] == 0){
+                MY_BANK_ACCOUNTS[i][ACCOUNT_NUM] = i + FIRST_ACCOUNT;
+                MY_BANK_ACCOUNTS[i][CASH_AMOUNT] = amount;
+                printf("New account number is: %d", i + FIRST_ACCOUNT);
+                break;
+            }
         }
+        if(i == MY_BANK_SIZE){
+            printf ("Unable to open account, the bank is full");
+        }
+        return;
     }
-}else {
-printf ("/nUnable to open account, the bank is full");
+    printf("Failed to read the amount");
 }
 
 void checkBalance(int account_number){
-   // if(account_number < 901 || account_number > 950)
-   // printf("/nError! the account is not exist")
- for (int i = 0; i < MY_BANK_SIZE; i++)
- {
-    if(MY_BANK_ACCOUNTS[i][ACCOUNT_NUM] == account_number){
-        printf("/nThe balance is %lf ", MY_BANK_ACCOUNTS[i][CASH_AMOUNT]);
+    /*if(account_number < 901 || account_number > 950){
+        printf("\nF");
+    }*/ if(account_number >= 901 && account_number <= 950){
+        int i= account_number-900-1;
+        if(MY_BANK_ACCOUNTS[i][ACCOUNT_NUM] == account_number){
+            double balance = MY_BANK_ACCOUNTS[i][CASH_AMOUNT];
+            printf("The balance of account number %d is: %0.2lf ", account_number, balance);
+        } else{
+            printf("This account is closed");
+        }
         return;
     }
- }
- printf("/nError! the account is not exist");
+    printf("Failed to read the account number");
 }
 
 void deposit(int account_number, double amount){
-      if(amount < 0) {
-        printf ("/nError! unable to deposit negative amount of cash");
-        return;
-     for (int i = 0; i < MY_BANK_SIZE; i++){
-    if(MY_BANK_ACCOUNTS[i][ACCOUNT_NUM] == account_number){
-        MY_BANK_ACCOUNTS[i][CASH_AMOUNT] = MY_BANK_ACCOUNTS[i][CASH_AMOUNT] + two_digits_after_point(amount);
-        printf("/nThe deposit was made successfully, the new balance is %lf ", MY_BANK_ACCOUNTS[i][CASH_AMOUNT]);
+    /*if(account_number < 901 || account_number > 950){
+       printf("\nError! the account is not exist");
+       return;
+    }*/
+    if(account_number >= 901 || account_number <= 950){
+        int i= account_number-900-1;
+        if(amount < 0) {
+            printf ("Failed to read the amount");
+        }
+        else if(MY_BANK_ACCOUNTS[i][ACCOUNT_NUM] == account_number){
+            MY_BANK_ACCOUNTS[i][CASH_AMOUNT] += amount;
+            double balance = MY_BANK_ACCOUNTS[i][CASH_AMOUNT];
+            printf("The new balance is: %0.2lf ", balance);
+        }
+        else{
+            printf("Failed to read the amount");
+        }
         return;
     }
- }
- printf("/nError! the account is not exist");
+    printf("Failed to read the account number");
 }
 
 void withdraw(int account_number, double amount){
     if(amount < 0) {
-    printf ("/nError! unable to withdraw negative amount of cash");
-    return;
-      for (int i = 0; i < MY_BANK_SIZE; i++){
-    if(MY_BANK_ACCOUNTS[i][ACCOUNT_NUM] == account_number && (MY_BANK_ACCOUNTS[i][ACCOUNT_NUM] - amount) >= 0 ){
-        MY_BANK_ACCOUNTS[i][CASH_AMOUNT] = MY_BANK_ACCOUNTS[i][CASH_AMOUNT] - two_digits_after_point(amount);
-        printf("/nThe balance now is %lf ", MY_BANK_ACCOUNTS[i][CASH_AMOUNT]);
+        printf ("Failed to read the amount");
         return;
     }
-    if(MY_BANK_ACCOUNTS[i][ACCOUNT_NUM] == account_number && (MY_BANK_ACCOUNTS[i][ACCOUNT_NUM] - two_digits_after_point(amount)) < 0){
-        printf("/nThere is not enough cash to withdraw");
+    /*if(account_number < 901 || account_number > 950){
+       printf("\nError! the account is not exist");
+       return;
+    }*/
+    if(account_number >= 901 && account_number <= 950){
+        int i= account_number-900-1;
+        if(MY_BANK_ACCOUNTS[i][ACCOUNT_NUM] != account_number){
+            printf("Failed to read the account number");
+            return;
+        }
+        if((MY_BANK_ACCOUNTS[i][CASH_AMOUNT] - amount) < 0 ){
+            printf("Cannot more than the balance");
+            return;
+        }
+        MY_BANK_ACCOUNTS[i][CASH_AMOUNT] -= amount;
+        double balance = MY_BANK_ACCOUNTS[i][CASH_AMOUNT];
+        printf("The new balance is: %0.2lf ", balance);
         return;
     }
- }
- printf("/nError! the account is not exist");
+    printf("Failed to read the account number");
 }
 
 void closeAccount(int account_number){ 
-for (int i = 0; i < MY_BANK_SIZE; i++)
-{
-    if(MY_BANK_ACCOUNTS[i][ACCOUNT_NUM] == account_number){
-        MY_BANK_ACCOUNTS[i][ACCOUNT_NUM] = 0;
-        MY_BANK_ACCOUNTS[i][CASH_AMOUNT] = 0;
-        printf("The account number %d closed successfully", account_number);
-        return;
+    /*if(account_number < 901 || account_number > 950){
+       printf("\nError! the account is not exist");
+       return;
+    }*/
+    if(account_number >= 901 && account_number <= 950){
+        int i= account_number-900-1;
+        if(MY_BANK_ACCOUNTS[i][ACCOUNT_NUM] == account_number){
+            MY_BANK_ACCOUNTS[i][ACCOUNT_NUM] = 0;
+            MY_BANK_ACCOUNTS[i][CASH_AMOUNT] = 0;
+            printf("The account number %d closed successfully", account_number);
+            return;
+        }
     }
-}
-printf("/nError! unable to close non-existent account");
+    printf("Failed to read the account number");
 }
 
-void addInterest(float interest_rate){
-    if(interest_rate < -99 || interest_rate > 99){
-         printf("/nInvalid interest rate");
-         return; 
-    }
-    float interest = 0;
-    for (int i = 0; i < MY_BANK_SIZE; i++)
-    {
+void addInterest(double interest_rate){
+    double interest = 0;
+    for (int i = 0; i < MY_BANK_SIZE; i++){
         if(MY_BANK_ACCOUNTS[i][ACCOUNT_NUM] != 0){
-             interest = (interest_rate/100)*MY_BANK_ACCOUNTS[i][CASH_AMOUNT];
-             MY_BANK_ACCOUNTS[i][CASH_AMOUNT] = MY_BANK_ACCOUNTS[i][CASH_AMOUNT] + two_digits_after_point(interest);
+            interest = (interest_rate/100)*MY_BANK_ACCOUNTS[i][CASH_AMOUNT];
+            MY_BANK_ACCOUNTS[i][CASH_AMOUNT] += interest;
         }
         interest = 0;
-    
     }
 }
 
-    void printAccounts(){
-        int num = 0;
-        double balance = 0;
-        for (int i = 0; i < MY_BANK_SIZE; i++){
-                if(MY_BANK_ACCOUNTS[i][ACCOUNT_NUM] != 0){
-                num = MY_BANK_ACCOUNTS[i][ACCOUNT_NUM];
-                balance = MY_BANK_ACCOUNTS[i][CASH_AMOUNT];
-                printf("/n Account number: %d, balance: %lf", num, balance);
-            } 
-        }  
-    }
+void printAccounts(){
+    int num = 0;
+    double balance = 0;
+    for (int i = 0; i < MY_BANK_SIZE; i++){
+        if(MY_BANK_ACCOUNTS[i][ACCOUNT_NUM] != 0){
+            num = MY_BANK_ACCOUNTS[i][ACCOUNT_NUM];
+            balance = MY_BANK_ACCOUNTS[i][CASH_AMOUNT];
+            printf("\nThe balance of account number %d is: %0.2lf", num, balance);
+        } 
+    }  
 }
 
 void closeAllAccounts(){
-    for (int i = 0; i < MY_BANK_SIZE; i++)
-    {
+    for (int i = 0; i < MY_BANK_SIZE; i++){
         MY_BANK_ACCOUNTS[i][ACCOUNT_NUM] = 0;
         MY_BANK_ACCOUNTS[i][CASH_AMOUNT] = 0;
     }

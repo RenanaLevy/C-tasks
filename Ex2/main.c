@@ -2,68 +2,110 @@
 #include "myBank.h"
 
 int main(){
-
-    char operation_type = 0;
-printf("\nWelcome to my bank!, choose an operation please:");
-printf("\nInsert 'O' for opening a bank account");
-printf("\nInsert 'B' for checking balance");
-printf("\nInsert 'D' for deposing to the account");
-printf("\nInsert 'W' for withdraw from the account");
-printf("\nInsert 'C' for closing the account");
-printf("\nInsert 'I' for adding interest at percentage rate to all open accounts");
-printf("\nInsert 'P' for printing all the open accounts and their balance");
-printf("\nInsert 'E' for closing all the accounts and exit the program");
-scanf(" %c", &operation_type);
-
-int account_number = 0;
-float amount = 0;
-float interest_rate = 0;
-do
-{
-    switch (operation_type)
+    char operation_type = '0';
+    int account_number = 0;
+    double amount = 0;
+    double interest_rate = 0;
+    do
     {
-    case 'O':
-        printf("Initial deposit?:");
-        openAccount(scanf("%lf", &amount));
-        break;
-    case 'B':
-        printf("Account number?:");
-        checkBalance(scanf("%d", &account_number));
-        break;
-    case 'D':
-        printf("Account number?:");
-        scanf("%d", &account_number);
-        printf("Amount?:");
-        scanf("%lf", &amount);
-        deposit(account_number, amount);
-        break;
-    case 'W':
-         printf("Account number?:");
-        scanf("%d", &account_number);
-        printf("Amount?:");
-        scanf("%lf", &amount);
-        withdraw(account_number, amount);
-        break;
-    case 'C':
-        printf("Account number?:");
-        scanf("%d", &account_number);
-        closeAccount(account_number);
-        break;
-    case 'I':
-        printf("Interest rate?:");
-        scanf("%f", &interest_rate);
-        addInterest(interest_rate);
-        break;
-    case 'P':
-        printAccounts();
-        break;
-    case 'E':
-        closeAllAccounts();
-        break;
-    default:
-        ("Error! you can only insert O,B,D,W,C,I,P,E");
-    }
-} while (operation_type != 'E');
+        printf("\nPlease choose a transaction type:");
+        printf("\n O-Open Account");
+        printf("\n B-Balance Inquiry");
+        printf("\n D-Deposit");
+        printf("\n W-Withdrawal");
+        printf("\n C-Close Accout");
+        printf("\n I-Interest");
+        printf("\n P-Print");
+        printf("\n E-Exit");
+        scanf(" %c", &operation_type);
 
-return 0;
+        switch (operation_type)
+        {
+        case 'O':
+            printf("\nPlease enter amount for deposit: ");
+            int inO = scanf(" %lf", &amount);
+            if(inO){
+                openAccount(amount);
+            }
+            else{
+                printf("Failed to read the amount");
+            }
+            break;
+        case 'B':
+            printf("\nPlease enter account number: ");
+            int inB = scanf(" %d", &account_number);
+            if(inB){
+                checkBalance(account_number);
+            }
+            else{
+                printf("Failed to read the account number");
+            }
+            break;
+        case 'D':
+            printf("\nPlease enter account number: ");
+            int inD = scanf(" %d", &account_number);
+            if(inD){
+                printf("Please enter amount for deposit: ");
+                int inD2 = scanf(" %lf", &amount);
+                if(inD2){
+                    deposit(account_number, amount);
+                }
+                else{
+                    printf("Failed to read the amount");
+                }
+            }
+            else{
+                printf("Failed to read the account number");
+            }
+            break;
+        case 'W':
+            printf("\nPlease enter account number: ");
+            int inW = scanf(" %d", &account_number);
+            if(inW){
+                printf("Please enter amount for withdraw: ");
+                int inW = scanf(" %lf", &amount);
+                if(inW){
+                    withdraw(account_number, amount);
+                }
+                else{
+                    printf("Failed to read the amount");
+                }
+            }
+            else{
+                printf("Failed to read the account number");
+            }
+            break;
+        case 'C':
+            printf("\nPlease enter account number: ");
+            int inC = scanf(" %d", &account_number);
+            if(inC){
+                closeAccount(account_number);
+            }
+            else{
+                printf("Failed to read the account number");
+            }
+            break;
+        case 'I':
+            printf("\nPlease enter interest rate: ");
+            int inI = scanf(" %lf", &interest_rate);
+            if(inI){
+                addInterest(interest_rate);
+            }
+            else{
+                printf("Failed to read the interest rate");
+            }
+            break;
+        case 'P':
+            printAccounts();
+            break;
+        case 'E':
+            closeAllAccounts();
+            break;
+        default:
+            printf("\nInvalid transaction type");
+            break;
+        }
+        printf("\n");
+    } while (operation_type != 'E');
+    return 0;
 }
