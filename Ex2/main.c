@@ -13,7 +13,7 @@ int main(){
         printf("\n B-Balance Inquiry");
         printf("\n D-Deposit");
         printf("\n W-Withdrawal");
-        printf("\n C-Close Accout");
+        printf("\n C-Close Account");
         printf("\n I-Interest");
         printf("\n P-Print");
         printf("\n E-Exit");
@@ -28,7 +28,7 @@ int main(){
                 openAccount(amount);
             }
             else{
-                printf("Failed to read the amount");
+                printf("Failed to read the amount\n");
             }
             break;
         case 'B':
@@ -38,7 +38,7 @@ int main(){
                 checkBalance(account_number);
             }
             else{
-                printf("Failed to read the account number");
+                printf("Failed to read the account number\n");
             }
             break;
         case 'D':
@@ -51,28 +51,28 @@ int main(){
                     deposit(account_number, amount);
                 }
                 else{
-                    printf("Failed to read the amount");
+                    printf("Failed to read the amount\n");
                 }
             }
             else{
-                printf("Failed to read the account number");
+                printf("Failed to read the account number\n");
             }
             break;
         case 'W':
             printf("\nPlease enter account number: ");
             int inW = scanf(" %d", &account_number);
             if(inW){
-                printf("Please enter amount for withdraw: ");
+                printf("Please enter the amount to withdraw: ");
                 int inW = scanf(" %lf", &amount);
                 if(inW){
                     withdraw(account_number, amount);
                 }
                 else{
-                    printf("Failed to read the amount");
+                    printf("Failed to read the amount\n");
                 }
             }
             else{
-                printf("Failed to read the account number");
+                printf("Failed to read the account number\n");
             }
             break;
         case 'C':
@@ -82,7 +82,7 @@ int main(){
                 closeAccount(account_number);
             }
             else{
-                printf("Failed to read the account number");
+                printf("Failed to read the account number\n");
             }
             break;
         case 'I':
@@ -92,7 +92,7 @@ int main(){
                 addInterest(interest_rate);
             }
             else{
-                printf("Failed to read the interest rate");
+                printf("Failed to read the interest rate\n");
             }
             break;
         case 'P':
@@ -102,10 +102,9 @@ int main(){
             closeAllAccounts();
             break;
         default:
-            printf("\nInvalid transaction type");
+            printf("\nInvalid transaction type\n");
             break;
         }
-        printf("\n");
     } while (operation_type != 'E');
     return 0;
 }
