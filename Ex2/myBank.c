@@ -97,8 +97,12 @@ void closeAccount(int account_number){
     printf("Failed to read the account number\n");
 }
 
-void addInterest(double interest_rate){
-    double interest = 0;
+void addInterest(int interest_rate){
+    if(interest_rate < -99){
+        printf("Invalid interest rate\n");
+        return;
+    }
+    int interest = 0;
     for (int i = 0; i < MY_BANK_SIZE; i++){
         if(MY_BANK_ACCOUNTS[i][ACCOUNT_NUM] != 0){
             interest = (interest_rate/100)*MY_BANK_ACCOUNTS[i][CASH_AMOUNT];

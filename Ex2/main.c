@@ -5,7 +5,7 @@ int main(){
     char operation_type = '0';
     int account_number = 0;
     double amount = 0;
-    double interest_rate = 0;
+    int interest_rate = 0;
     do
     {
         printf("\nPlease choose a transaction type:");
@@ -87,7 +87,7 @@ int main(){
             break;
         case 'I':
             printf("\nPlease enter interest rate: ");
-            int inI = scanf(" %lf", &interest_rate);
+            int inI = scanf(" %d", &interest_rate);
             if(inI){
                 addInterest(interest_rate);
             }
